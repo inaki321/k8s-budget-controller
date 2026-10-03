@@ -1,0 +1,5 @@
+apiVersion: v2
+name: finops
+description: Tracks CPU/memory cost of a target and scales it to zero when over budget
+version: 0.1.0
+appVersion: "0.1.0"

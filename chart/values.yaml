@@ -1,0 +1,18 @@
+image:
+  repository: finops
+  tag: latest
+
+target:
+  namespace: default
+  selector: "app=payments-api"
+
+budget:
+  spendLimit: 100        # USD per window
+  window: 168h           # weekly
+  pollInterval: 30s
+
+pricing:
+  cpuPerCoreHour: 0.031
+  memPerGiBHour: 0.004
+
+dryRun: true

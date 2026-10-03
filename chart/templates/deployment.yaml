@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: {{ .Release.Name }} }
+  template:
+    metadata:
+      labels: { app: {{ .Release.Name }} }
+    spec:
+      serviceAccountName: {{ .Release.Name }}
+      containers:
+        - name: finops
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          env:
+            - { name: TARGET_NAMESPACE, value: {{ .Values.target.namespace | quote }} }
+            - { name: TARGET_SELECTOR, value: {{ .Values.target.selector | quote }} }
+            - { name: SPEND_LIMIT, value: {{ .Values.budget.spendLimit | quote }} }
+            - { name: BUDGET_WINDOW, value: {{ .Values.budget.window | quote }} }
+            - { name: POLL_INTERVAL, value: {{ .Values.budget.pollInterval | quote }} }
+            - { name: CPU_PRICE_PER_CORE_HOUR, value: {{ .Values.pricing.cpuPerCoreHour | quote }} }
+            - { name: MEM_PRICE_PER_GIB_HOUR, value: {{ .Values.pricing.memPerGiBHour | quote }} }
+            - { name: DRY_RUN, value: {{ .Values.dryRun | quote }} }
